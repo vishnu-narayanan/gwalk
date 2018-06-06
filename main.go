@@ -1,16 +1,23 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"log"
 	"os/exec"
-    "log"
 )
 
 func main() {
-	cmd := exec.Command("git","checkout","master")
+
+	branch := flag.String("b", "master", "branch to use")
+	//action := flag.String("a", "init", "action to perform. Available actions: init,next,prev")
+	flag.Parse()
+
+	cmd := exec.Command("git", "checkout", *branch)
 	err := cmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Checking out master")
+
+	fmt.Println("Checking out", *branch)
 }
