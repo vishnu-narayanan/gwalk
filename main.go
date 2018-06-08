@@ -40,4 +40,12 @@ func main() {
 			fmt.Println(i,c)
 		}
 
+	fmt.Println("Replaying history...")
+	fmt.Println("Checking out initial commit")
+
+	cmd = exec.Command("git", "checkout", commits[0])
+	err = cmd.Run()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
