@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
+	"strings"
 )
 
 func main() {
@@ -20,4 +22,22 @@ func main() {
 	}
 
 	fmt.Println("Checking out", *branch)
+
+	var (
+		cmdOut []byte
+		err2    error
+	)
+
+	cmdName := "git"
+	cmdArgs := []string{"log", "--pretty=%h"}
+	if cmdOut, err2 = exec.Command(cmdName, cmdArgs...).Output(); err2 != nil {
+		fmt.Fprintln(os.Stderr, "There was an error running git rev-parse command: ", err2)
+		os.Exit(1)
+	}
+	
+	commits := strings.Split(string(cmdOut),"\n")
+	for i,c := range commits {
+			fmt.Println(i,c)
+		}
+
 }

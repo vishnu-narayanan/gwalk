@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"reflect"
+	"strings"
 )
 
 func main() {
@@ -18,6 +18,10 @@ func main() {
 		fmt.Fprintln(os.Stderr, "There was an error running git rev-parse command: ", err)
 		os.Exit(1)
 	}
-	fmt.Println(cmdOut)
-	fmt.Println(reflect.TypeOf(cmdOut))
+	
+	commits := strings.Split(string(cmdOut),"\n")
+	for i,c := range commits {
+			fmt.Println(i,c)
+		}
+	
 }
