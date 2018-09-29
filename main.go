@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+var commits []string
+
 func main() {
 	fmt.Println("Initializing gwalk v0.1.0")
 
@@ -25,11 +27,11 @@ func main() {
 	fmt.Println("Checking out", *branch)
 
 	history := generateHistory()
-	commits := strings.Split(string(history), "\n")
+	commits = strings.Split(string(history), "\n")
+	fmt.Println("Available actions - init,next,prev,exit")
 
 	for {
-		fmt.Println("Available actions - init,next,prev,exit")
-		fmt.Println("Enter action: ")
+		fmt.Println("===>")
 		reader := bufio.NewReader(os.Stdin)
 		text, _ := reader.ReadString('\n')
 		i := 0
@@ -38,30 +40,30 @@ func main() {
 		case "init":
 			fmt.Println("Checking out initial commit")
 			i = 0
-			checkout(i)
+			checkout(i, commits)
 		case "next":
 			fmt.Println("Moving forward by one commit")
 			i++
-			checkout(i)
+			checkout(i, commits)
 		case "prev":
 			i--
-			checkout(i)
+			checkout(i, commits)
 			fmt.Println("Moving backward by one commit")
 		case "exit":
 			os.Exit(0)
 		default:
 			fmt.Println("Checking out initial commit")
 			i = 0
-			checkout(i)
+			checkout(i, commits)
 
 		}
 
 	}
 }
 
-func checkout(i int,commit []string) {
-	cmd = exec.Command("git", "checkout", commits[i])
-	err = cmd.Run()
+func checkout(i int, commit []string) {
+	cmd := exec.Command("git", "checkout", commits[i])
+	err := cmd.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
